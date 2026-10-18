@@ -853,5 +853,35 @@
     renderMenu();
     renderCart();
   </script>
+
+<!-- Supabase connection -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://oztlfxzvjhwzkdumhrxh.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gP_eKm0_b28bmPbwyKpz8A_mGiFIKh2";
+
+  const cafeDB = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  async function testCafeConnection() {
+    const { data, error } = await cafeDB
+      .from("products")
+      .select("id, name, category, price")
+      .eq("is_active", true);
+
+    if (error) {
+      console.error("Supabase connection error:", error.message);
+      return;
+    }
+
+    console.log("CAFE-PASTE connected!");
+    console.log("Active products:", data);
+  }
+
+  testCafeConnection();
+</script>
 </body>
 </html>
