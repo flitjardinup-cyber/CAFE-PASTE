@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFE-PASTE | Coffee, Drinks & Pastries</title>
+  <meta name="description" content="Discover your favorite coffee, non-coffee drinks, and freshly baked pastries at CAFE-PASTE.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --cream: #faf7f0;
+      --white: #fffefa;
+      --brown: #72513d;
+      --dark: #30271f;
+      --muted: #887d71;
+      --border: #e9e0d4;
+      --accent: #c9a77c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--dark);
+      font-family: "DM Sans", sans-serif;
+      line-height: 1.6;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .container {
+      width: min(1160px, 90%);
+      margin: auto;
+    }
+
+    header {
+      background: rgba(255, 254, 250, .96);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-family: "Playfair Display", serif;
+      font-size: 27px;
+      font-weight: 700;
+      color: var(--brown);
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      color: var(--dark);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav-links a:hover { color: var(--brown); }
+
+    .cart-button, .primary-button {
+      border: 0;
+      background: var(--brown);
+      color: white;
+      border-radius: 6px;
+      padding: 12px 18px;
+      font-weight: 600;
+    }
+
+    .cart-button:hover, .primary-button:hover {
+      background: #523927;
+    }
+
+    .hero {
+      padding: 72px 0;
+      background: linear-gradient(110deg, #f6eee1, #fbf8f1);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 55px;
+    }
+
+    .eyebrow {
+      color: var(--brown);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3 {
+      font-family: "Playfair Display", serif;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(42px, 5.4vw, 68px);
+      margin-bottom: 22px;
+    }
+
+    h1 span { color: var(--brown); }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 470px;
+      margin-bottom: 28px;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 390px;
+      object-fit: cover;
+      border-radius: 48% 48% 8px 8px;
+    }
+
+    .text-link {
+      display: inline-block;
+      color: var(--brown);
+      margin-left: 18px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      text-align: center;
+      padding: 27px 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .feature {
+      padding: 6px 10px;
+      font-size: 14px;
+    }
+
+    .feature strong { display: block; color: var(--brown); }
+    .feature span { color: var(--muted); font-size: 12px; }
+
+    section { padding: 76px 0; }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+
+    .section-heading h2 { font-size: 39px; margin-bottom: 10px; }
+    .section-heading p { color: var(--muted); }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 34px;
+    }
+
+    .filter-button {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 9px 19px;
+      color: var(--dark);
+    }
+
+    .filter-button.active,
+    .filter-button:hover {
+      background: var(--brown);
+      border-color: var(--brown);
+      color: white;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px #513a1710;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 225px;
+      object-fit: cover;
+      display: block;
+      background: #eee5d8;
+    }
+
+    .product-info { padding: 20px; }
+
+    .product-info h3 { font-size: 21px; margin-bottom: 7px; }
+    .product-info p { color: var(--muted); font-size: 13px; min-height: 42px; }
+
+    .product-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 17px;
+    }
+
+    .price { color: var(--brown); font-weight: 700; font-size: 19px; }
+
+    .add-button {
+      background: #f0e5d6;
+      border: 0;
+      color: var(--brown);
+      padding: 10px 13px;
+      border-radius: 5px;
+      font-weight: 700;
+    }
+
+    .add-button:hover { background: #e5d3bd; }
+
+    .about {
+      background: #eee4d6;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .about-grid img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .about h2 { font-size: 39px; margin-bottom: 18px; }
+    .about p { color: #75695d; margin-bottom: 16px; }
+
+    .contact {
+      text-align: center;
+      background: var(--white);
+    }
+
+    .contact h2 { font-size: 39px; margin-bottom: 15px; }
+    .contact p { color: var(--muted); margin-bottom: 24px; }
+
+    footer {
+      background: #30271f;
+      color: #f9f3e9;
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    footer p { color: #c7b8a7; font-size: 13px; }
+    footer .logo { color: #fff5e7; display: inline-block; margin-bottom: 8px; }
+
+    .cart-panel {
+      position: fixed;
+      right: 0;
+      top: 0;
+      height: 100dvh;
+      width: min(410px, 100%);
+      background: var(--white);
+      z-index: 30;
+      padding: 24px;
+      box-shadow: -10px 0 40px #0002;
+      transform: translateX(110%);
+      transition: transform .25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-panel.open { transform: translateX(0); }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-header h2 { font-size: 26px; }
+
+    .close-cart {
+      background: none;
+      border: 0;
+      font-size: 28px;
+      padding: 4px 10px;
+    }
+
+    .cart-items { overflow-y: auto; flex: 1; padding: 15px 0; }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-item small { display: block; color: var(--muted); }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .quantity-controls button {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border);
+      background: var(--cream);
+      border-radius: 4px;
+    }
+
+    .cart-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+    }
+
+    .total-line {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 19px;
+      margin-bottom: 15px;
+    }
+
+    .cart-footer .primary-button { width: 100%; }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: #0006;
+      z-index: 20;
+      display: none;
+    }
+
+    .overlay.visible { display: block; }
+
+    .checkout-form {
+      display: grid;
+      gap: 12px;
+      padding-top: 15px;
+    }
+
+    .checkout-form input,
+    .checkout-form select,
+    .checkout-form textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: white;
+      padding: 12px;
+      border-radius: 5px;
+      color: var(--dark);
+    }
+
+    .checkout-form label { font-size: 13px; font-weight: 600; }
+
+    .checkout-form .primary-button { width: 100%; }
+
+    .notice { color: var(--muted); font-size: 12px; }
+
+    @media (max-width: 760px) {
+      .nav-links { gap: 12px; }
+      .nav-links a { display: none; }
+      .hero { padding: 48px 0; }
+      .hero-grid, .about-grid { grid-template-columns: 1fr; gap: 30px; }
+      .hero-image { height: 300px; }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .product-card img { height: 155px; }
+      .product-info { padding: 12px; }
+      .product-info h3 { font-size: 17px; }
+      .product-info p { font-size: 12px; }
+      .product-bottom { flex-wrap: wrap; }
+      .price { font-size: 16px; }
+      .add-button { padding: 8px 10px; }
+      section { padding: 55px 0; }
+      .section-heading h2, .about h2, .contact h2 { font-size: 32px; }
+      .features { grid-template-columns: 1fr; gap: 15px; }
+      .text-link { margin: 16px 0 0; }
+    }
+
+    @media (max-width: 380px) {
+      .menu-grid { grid-template-columns: 1fr; }
+      .product-card img { height: 220px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="container">
+      <a class="logo" href="#">CAFE<span>-</span>PASTE.</a>
+
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#menu">Our Menu</a>
+        <a href="#about">Our Story</a>
+        <button class="cart-button" id="openCart">
+          Bag (<span id="cartCount">0</span>)
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Your everyday café</div>
+          <h1>A little sip.<br>A little <span>happiness.</span></h1>
+          <p>
+            Welcome to CAFE-PASTE, your cozy corner for handcrafted coffee,
+            refreshing non-coffee drinks, and freshly baked pastries.
+            Good food, good drinks, good moments.
+          </p>
+          <a class="primary-button" href="#menu" style="text-decoration:none;display:inline-block">
+            Explore Our Menu
+          </a>
+          <a class="text-link" href="#about">Our story →</a>
+        </div>
+
+        <img
+          class="hero-image"
+          src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1000&q=85"
+          alt="Warm and elegant café interior"
+        >
+      </div>
+    </section>
+
+    <div class="features">
+      <div class="feature">☕ <strong>Made with care</strong><span>Drinks for every mood</span></div>
+      <div class="feature">🥐 <strong>Sweet little treats</strong><span>Pastries worth sharing</span></div>
+      <div class="feature">🤎 <strong>Your cozy corner</strong><span>Made for good moments</span></div>
+    </div>
+
+    <section id="menu">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">Find your favorite</div>
+          <h2>Our Menu</h2>
+          <p>From your morning coffee to your afternoon sweet treat.</p>
+        </div>
+
+        <div class="filters">
+  <button class="filter-button active" data-filter="All">All Menu</button>
+  <button class="filter-button" data-filter="Coffee">☕ Coffee</button>
+  <button class="filter-button" data-filter="Non-Coffee">🥤 Non-Coffee</button>
+  <button class="filter-button" data-filter="Pastries">🥐 Pastries</button>
+  <button class="filter-button" data-filter="Pasta">🍝 Pasta</button>
+  <button class="filter-button" data-filter="Pika-Pika">🍟 Pika-Pika</button>
+</div>
+
+
+        <div class="menu-grid" id="menuGrid"></div>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="container about-grid">
+        <img
+          src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=85"
+          alt="Coffee being prepared"
+          loading="lazy"
+        >
+        <div>
+          <div class="eyebrow">More than a cup</div>
+          <h2>Made for your everyday moments.</h2>
+          <p>
+            At CAFE-PASTE, we believe the little things make life special.
+            A comforting cup, a favorite pastry, and a moment to slow down.
+          </p>
+          <p>
+            Whether you love coffee, prefer something fruity and refreshing,
+            or simply crave something sweet, there's something here for you.
+          </p>
+          <a href="#menu" class="primary-button" style="display:inline-block;text-decoration:none">
+            Find Your Favorite
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="eyebrow">Come say hello</div>
+        <h2>Your next favorite is waiting.</h2>
+        <p>Questions, special orders, or just want to say hi? We'd love to hear from you.</p>
+        <a class="primary-button" href="#menu" style="display:inline-block;text-decoration:none">
+          Order Something Delicious
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="logo" href="#">CAFE-PASTE.</a>
+    <p>Coffee, non-coffee drinks & pastries, made for your happy moments.</p>
+    <p style="margin-top:12px">© <span id="year"></span> CAFE-PASTE. All rights reserved.</p>
+  </footer>
+
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="cart-panel" id="cartPanel" aria-label="Shopping cart">
+    <div class="cart-header">
+      <h2>Your Bag</h2>
+      <button class="close-cart" id="closeCart" aria-label="Close cart">×</button>
+    </div>
+
+    <div class="cart-items" id="cartItems"></div>
+
+    <div class="cart-footer">
+      <div class="total-line">
+        <span>Total</span>
+        <span id="cartTotal">₱0.00</span>
+      </div>
+      <button class="primary-button" id="checkoutButton">Proceed to Order</button>
+    </div>
+
+    <div id="checkoutArea"></div>
+  </aside>
+
+  <script>
+    // EDIT THESE PRODUCTS, DESCRIPTIONS, IMAGES, AND PRICES.   
+    const products = [
+  // COFFEE
+  {id:1,name:"Cafe Latte",category:"Coffee",price:120,description:"Smooth espresso with creamy milk.",image:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=80"},
+  {id:2,name:"Iced Americano",category:"Coffee",price:100,description:"Bold espresso served over ice.",image:"https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=700&q=80"},
+  {id:3,name:"Caramel Macchiato",category:"Coffee",price:140,description:"Espresso, milk and caramel drizzle.",image:"https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=700&q=80"},
+  {id:4,name:"Spanish Latte",category:"Coffee",price:135,description:"Creamy espresso with sweet milk.",image:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=80"},
+  {id:5,name:"Mocha Latte",category:"Coffee",price:140,description:"Coffee blended with chocolate.",image:"https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?auto=format&fit=crop&w=700&q=80"},
+  {id:6,name:"Vanilla Latte",category:"Coffee",price:135,description:"Espresso with smooth vanilla flavor.",image:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=80"},
+  {id:7,name:"Cappuccino",category:"Coffee",price:125,description:"Espresso with silky foamed milk.",image:"https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=700&q=80"},
+  {id:8,name:"White Chocolate Mocha",category:"Coffee",price:150,description:"Rich coffee with white chocolate.",image:"https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?auto=format&fit=crop&w=700&q=80"},
+  {id:9,name:"Hazelnut Latte",category:"Coffee",price:140,description:"Nutty hazelnut and espresso.",image:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=80"},
+  {id:10,name:"Dirty Matcha",category:"Coffee",price:150,description:"Matcha latte topped with espresso.",image:"https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=700&q=80"},
+
+  // NON-COFFEE
+  {id:11,name:"Strawberry Milk",category:"Non-Coffee",price:110,description:"Sweet strawberry with creamy milk.",image:"https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=700&q=80"},
+  {id:12,name:"Matcha Latte",category:"Non-Coffee",price:130,description:"Earthy Japanese-style matcha and milk.",image:"https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=700&q=80"},
+  {id:13,name:"Iced Chocolate",category:"Non-Coffee",price:110,description:"Chocolatey, creamy and refreshing.",image:"https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=700&q=80"},
+  {id:14,name:"Blueberry Milk",category:"Non-Coffee",price:120,description:"Fruity blueberry and fresh milk.",image:"https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=700&q=80"},
+  {id:15,name:"Mango Yakult",category:"Non-Coffee",price:100,description:"Sweet mango with a tangy twist.",image:"https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=700&q=80"},
+  {id:16,name:"Strawberry Matcha",category:"Non-Coffee",price:150,description:"Layered strawberry milk and matcha.",image:"https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=700&q=80"},
+  {id:17,name:"Taro Milk",category:"Non-Coffee",price:120,description:"Creamy taro with a mellow sweetness.",image:"https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=700&q=80"},
+  {id:18,name:"Cookies & Cream",category:"Non-Coffee",price:140,description:"Creamy milk blended with cookie flavor.",image:"https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=700&q=80"},
+  {id:19,name:"Lemon Iced Tea",category:"Non-Coffee",price:80,description:"A refreshing citrus tea.",image:"https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=700&q=80"},
+  {id:20,name:"Mango Smoothie",category:"Non-Coffee",price:130,description:"A fruity, creamy mango blend.",image:"https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=700&q=80"},
+
+  // PASTRIES
+  {id:21,name:"Butter Croissant",category:"Pastries",price:85,description:"Flaky layers with buttery goodness.",image:"https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=700&q=80"},
+  {id:22,name:"Chocolate Chip Cookie",category:"Pastries",price:60,description:"Golden cookie packed with chocolate chips.",image:"https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=700&q=80"},
+  {id:23,name:"Blueberry Muffin",category:"Pastries",price:75,description:"Soft muffin with juicy blueberries.",image:"https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&w=700&q=80"},
+  {id:24,name:"Chocolate Brownie",category:"Pastries",price:85,description:"Rich, fudgy chocolate goodness.",image:"https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=700&q=80"},
+  {id:25,name:"Cinnamon Roll",category:"Pastries",price:95,description:"Soft cinnamon pastry with sweet icing.",image:"https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=700&q=80"},
+  {id:26,name:"Cheesecake Slice",category:"Pastries",price:145,description:"Creamy cheesecake with a buttery crust.",image:"https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=700&q=80"},
+  {id:27,name:"Chocolate Donut",category:"Pastries",price:65,description:"Soft donut finished with chocolate.",image:"https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=700&q=80"},
+  {id:28,name:"Banana Bread",category:"Pastries",price:75,description:"Moist banana loaf with a homemade feel.",image:"https://images.unsplash.com/photo-1606101201230-8f7d2c4c7d28?auto=format&fit=crop&w=700&q=80"},
+
+  // PASTA
+  {id:29,name:"Creamy Carbonara",category:"Pasta",price:189,description:"Creamy white sauce with savory toppings.",image:"https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=700&q=80"},
+  {id:30,name:"Spaghetti Bolognese",category:"Pasta",price:179,description:"Classic spaghetti with rich meat sauce.",image:"https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?auto=format&fit=crop&w=700&q=80"},
+  {id:31,name:"Creamy Pesto Pasta",category:"Pasta",price:189,description:"Herby pesto tossed with creamy sauce.",image:"https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=700&q=80"},
+  {id:32,name:"Tuna Pasta",category:"Pasta",price:169,description:"Savory tuna with garlic and pasta.",image:"https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?auto=format&fit=crop&w=700&q=80"},
+  {id:33,name:"Spicy Arrabbiata",category:"Pasta",price:169,description:"Tomato pasta with a spicy kick.",image:"https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=700&q=80"},
+  {id:34,name:"Chicken Alfredo",category:"Pasta",price:199,description:"Tender chicken with creamy Alfredo sauce.",image:"https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&fit=crop&w=700&q=80"},
+
+  // PIKA-PIKA
+  {id:35,name:"French Fries",category:"Pika-Pika",price:89,description:"Crispy golden fries, perfect for sharing.",image:"https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=700&q=80"},
+  {id:36,name:"Nachos Overload",category:"Pika-Pika",price:149,description:"Crunchy nachos with cheese and toppings.",image:"https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=700&q=80"},
+  {id:37,name:"Mozzarella Sticks",category:"Pika-Pika",price:129,description:"Crispy coating with melty cheese.",image:"https://images.unsplash.com/photo-1531749668029-2db88e4276c7?auto=format&fit=crop&w=700&q=80"},
+  {id:38,name:"Chicken Nuggets",category:"Pika-Pika",price:119,description:"Crispy chicken bites with dipping sauce.",image:"https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=700&q=80"},
+  {id:39,name:"Onion Rings",category:"Pika-Pika",price:99,description:"Crunchy golden onion rings.",image:"https://images.unsplash.com/photo-1639024471283-03518883512d?auto=format&fit=crop&w=700&q=80"},
+  {id:40,name:"Popcorn Chicken",category:"Pika-Pika",price:129,description:"Bite-sized crispy chicken pieces.",image:"https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=700&q=80"},
+  {id:41,name:"Clubhouse Sandwich",category:"Pika-Pika",price:159,description:"A hearty sandwich for your café break.",image:"https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=700&q=80"},
+  {id:42,name:"Ham & Cheese Sandwich",category:"Pika-Pika",price:119,description:"A toasted favorite with ham and cheese.",image:"https://images.unsplash.com/photo-1539252554453-80ab65ce3586?auto=format&fit=crop&w=700&q=80"}
+];
+
+    let cart = [];
+    let currentFilter = "All";
+
+    const menuGrid = document.getElementById("menuGrid");
+    const cartPanel = document.getElementById("cartPanel");
+    const overlay = document.getElementById("overlay");
+    const cartItems = document.getElementById("cartItems");
+    const checkoutArea = document.getElementById("checkoutArea");
+
+    const money = amount =>
+      new Intl.NumberFormat("en-PH", {
+        style: "currency",
+        currency: "PHP"
+      }).format(amount);
+
+    function renderMenu() {
+      const visibleProducts = products.filter(product =>
+        currentFilter === "All" || product.category === currentFilter
+      );
+
+      menuGrid.innerHTML = visibleProducts.map(product => `
+        <article class="product-card">
+          <img src="${product.image}" alt="${product.name}" loading="lazy">
+          <div class="product-info">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <div class="product-bottom">
+              <span class="price">${money(product.price)}</span>
+              <button class="add-button" data-add="${product.id}">
+                + Add
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    document.querySelectorAll(".filter-button").forEach(button => {
+      button.addEventListener("click", () => {
+        currentFilter = button.dataset.filter;
+
+        document.querySelectorAll(".filter-button").forEach(item =>
+          item.classList.toggle("active", item === button)
+        );
+
+        renderMenu();
+      });
+    });
+
+    function addToCart(id) {
+      const product = products.find(item => item.id === id);
+      if (!product) return;
+
+      const existing = cart.find(item => item.id === id);
+
+      if (existing) {
+        existing.quantity++;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      renderCart();
+    }
+
+    menuGrid.addEventListener("click", event => {
+      const button = event.target.closest("[data-add]");
+      if (!button) return;
+
+      addToCart(Number(button.dataset.add));
+      button.textContent = "Added ✓";
+      setTimeout(() => {
+        if (button.isConnected) button.textContent = "+ Add";
+      }, 800);
+    });
+
+    function changeQuantity(id, amount) {
+      const item = cart.find(product => product.id === id);
+      if (!item) return;
+
+      item.quantity += amount;
+      cart = cart.filter(product => product.quantity > 0);
+      renderCart();
+    }
+
+    function renderCart() {
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const total = cart.reduce((sum, item) =>
+        sum + item.price * item.quantity, 0
+      );
+
+      document.getElementById("cartCount").textContent = count;
+      document.getElementById("cartTotal").textContent = money(total);
+
+      if (cart.length === 0) {
+        cartItems.innerHTML =
+          '<p style="color:#887d71;padding:20px 0">Your bag is empty. Add something delicious!</p>';
+      } else {
+        cartItems.innerHTML = cart.map(item => `
+          <div class="cart-item">
+            <div>
+              <strong>${item.name}</strong>
+              <small>${money(item.price)} each</small>
+              <div class="quantity-controls">
+                <button data-change="${item.id}" data-amount="-1" aria-label="Decrease quantity">−</button>
+                <span>${item.quantity}</span>
+                <button data-change="${item.id}" data-amount="1" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+            <strong>${money(item.price * item.quantity)}</strong>
+          </div>
+        `).join("");
+      }
+    }
+
+    cartItems.addEventListener("click", event => {
+      const button = event.target.closest("[data-change]");
+      if (!button) return;
+
+      changeQuantity(
+        Number(button.dataset.change),
+        Number(button.dataset.amount)
+      );
+    });
+
+    function openCart() {
+      cartPanel.classList.add("open");
+      overlay.classList.add("visible");
+    }
+
+    function closeCart() {
+      cartPanel.classList.remove("open");
+      overlay.classList.remove("visible");
+    }
+
+    document.getElementById("openCart").addEventListener("click", openCart);
+    document.getElementById("closeCart").addEventListener("click", closeCart);
+    overlay.addEventListener("click", closeCart);
+
+    document.getElementById("checkoutButton").addEventListener("click", () => {
+      if (cart.length === 0) {
+        alert("Your bag is empty. Please add an item first.");
+        return;
+      }
+
+      checkoutArea.innerHTML = `
+        <form class="checkout-form" id="orderForm">
+          <h3>Order Details</h3>
+
+          <label for="customerName">Full name</label>
+          <input id="customerName" name="customerName" required maxlength="100" placeholder="Your name">
+
+          <label for="customerPhone">Contact number</label>
+          <input id="customerPhone" name="customerPhone" required type="tel" maxlength="20" placeholder="09XX XXX XXXX">
+
+          <label for="fulfillment">Order type</label>
+          <select id="fulfillment" name="fulfillment">
+            <option value="Pickup">Pickup</option>
+            <option value="Delivery">Delivery</option>
+          </select>
+
+          <label for="customerAddress">Address / pickup notes</label>
+          <textarea id="customerAddress" name="customerAddress" required maxlength="300" rows="2" placeholder="Enter your address or pickup details"></textarea>
+
+          <label for="paymentMethod">Preferred payment</label>
+          <select id="paymentMethod" name="paymentMethod">
+            <option value="Cash">Cash (confirm with café)</option>
+            <option value="GCash">GCash (confirm with café)</option>
+          </select>
+
+          <button class="primary-button" type="submit">Prepare My Order</button>
+          <p class="notice">Submitting prepares an order message. It does not automatically save the order to a database or confirm payment.</p>
+        </form>
+      `;
+
+      document.getElementById("orderForm").addEventListener("submit", event => {
+        event.preventDefault();
+
+        const form = new FormData(event.currentTarget);
+        const name = form.get("customerName").trim();
+        const phone = form.get("customerPhone").trim();
+        const fulfillment = form.get("fulfillment");
+        const address = form.get("customerAddress").trim();
+        const payment = form.get("paymentMethod");
+
+        if (!name || !phone || !address) return;
+
+        const lines = cart.map(item =>
+          `${item.name} x ${item.quantity} = ${money(item.price * item.quantity)}`
+        );
+
+        const total = cart.reduce((sum, item) =>
+          sum + item.price * item.quantity, 0
+        );
+
+        const message = [
+          "Hello CAFE-PASTE! I would like to place an order.",
+          "",
+          "Name: " + name,
+          "Contact: " + phone,
+          "Order type: " + fulfillment,
+          "Address/notes: " + address,
+          "Preferred payment: " + payment,
+          "",
+          "ORDER ITEMS:",
+          ...lines,
+          "",
+          "TOTAL: " + money(total),
+          "",
+          "Please confirm availability and my order. Thank you!"
+        ].join("\n");
+
+        // Replace with your actual business WhatsApp number.
+        const whatsappNumber = "639XXXXXXXXX";
+
+        if (!/^639\d{9}$/.test(whatsappNumber)) {
+          alert("Your order details are ready, but the café's WhatsApp number has not been configured yet.\n\n" + message);
+          return;
+        }
+
+        window.open(
+          "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message),
+          "_blank",
+          "noopener,noreferrer"
+        );
+      });
+
+      checkoutArea.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    renderMenu();
+    renderCart();
+  </script>
+
+<!-- Supabase connection -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://oztlfxzvjhwzkdumhrxh.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gP_eKm0_b28bmPbwyKpz8A_mGiFIKh2";
+
+  const cafeDB = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  async function testCafeConnection() {
+    const { data, error } = await cafeDB
+      .from("products")
+      .select("id, name, category, price")
+      .eq("is_active", true);
+
+    if (error) {
+      console.error("Supabase connection error:", error.message);
+      return;
+    }
+
+    console.log("CAFE-PASTE connected!");
+    console.log("Active products:", data);
+  }
+
+  testCafeConnection();
+</script>
+</body>
+</html>
